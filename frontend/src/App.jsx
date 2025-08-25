@@ -28,6 +28,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import SaasPage from './SaasPage';
 import MarketingPage from './MarketingPage';
 import AsesoriasPage from './AsesoriasPage';
+import { forwardRef } from 'react';
 
 
 const MotionBox = motion(Box);
@@ -45,9 +46,7 @@ const equipo = [
 ];
 
 const clientes = [
-  { nombre: 'Maitademi', logo: 'https://dummyimage.com/80x40/81e6d9/fff&text=TechNova' },
-  { nombre: 'MarketPro', logo: 'https://dummyimage.com/80x40/319795/fff&text=MarketPro' },
-  { nombre: 'InnovateX', logo: 'https://dummyimage.com/80x40/38b2ac/fff&text=InnovateX' }
+  { nombre: 'Maitademi', logo: 'https://dummyimage.com/80x40/81e6d9/fff&text=Maitademi' }
 ];
 
 function Navbar({ onOpen, colorMode, toggleColorMode, navigate }) {
@@ -141,7 +140,7 @@ function Footer() {
         mt={10}
       >
         <Text fontSize="lg" fontWeight="bold">
-          © {new Date().getFullYear()} NxuS Studio. Todos los derechos reservados.
+          © {new Date().getFullYear()} NxuS.Dev. Todos los derechos reservados.
         </Text>
         <HStack spacing={6} mt={{ base: 4, md: 0 }}>
           <Link href="mailto:contacto@nxus.studio" isExternal>
@@ -166,16 +165,17 @@ function Layout({ children, onOpen }) {
   const navigate = useNavigate();
 
   return (
-    <>
+    <Box position="relative" minH="100vh" w="100%">
       {/* Fondo animado hero */}
       <Box
-        position="fixed"
+        position="absolute"
         top={0}
         left={0}
         w="100%"
-        h="100vh"
+        h="100%"
         zIndex={-1}
         bgGradient="linear(to-br, #43e97b 0%, #38f9d7 100%)"
+        minH="100vh"
         overflow="hidden"
       >
         <MotionBox
@@ -184,11 +184,11 @@ function Layout({ children, onOpen }) {
           position="absolute"
           top="10%"
           left="5%"
-          w="350px"
-          h="350px"
+          w={{ base: "180px", md: "350px" }}
+          h={{ base: "180px", md: "350px" }}
           bg="green.300"
           rounded="full"
-          filter="blur(120px)"
+          filter="blur(80px)"
         />
         <MotionBox
           animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6], y: [0, -30, 0] }}
@@ -196,16 +196,14 @@ function Layout({ children, onOpen }) {
           position="absolute"
           bottom="10%"
           right="10%"
-          w="250px"
-          h="250px"
+          w={{ base: "120px", md: "250px" }}
+          h={{ base: "120px", md: "250px" }}
           bg="teal.400"
           rounded="full"
-          filter="blur(100px)"
+          filter="blur(60px)"
         />
       </Box>
-
       <Navbar onOpen={onOpen} colorMode={colorMode} toggleColorMode={toggleColorMode} navigate={navigate} />
-      {/* Elimina el Container y renderiza children directamente */}
       {typeof children === 'function' ? children({ onOpen }) : children}
       {/* Contacto modal */}
       {isOpen && (
@@ -256,14 +254,14 @@ function Layout({ children, onOpen }) {
                 </Box>
               </VStack>
             </Box>
-            <Button colorScheme="teal" mt={6} mr={3} onClick={onClose} w="100%" size="lg">
+            <NxuSButton mt={6} mr={3} onClick={onClose} w="100%" size="lg">
               Enviar
-            </Button>
+            </NxuSButton>
           </MotionBox>
         </Box>
       )}
       <Footer />
-    </>
+    </Box>
   );
 }
 
@@ -276,7 +274,7 @@ function HomeContent({ onOpen }) {
         w="100%"
         maxW="100vw"
         overflow="hidden"
-        h={{ base: "420px", md: "680px", lg: "820px" }}
+        h={{ base: "260px", sm: "340px", md: "680px", lg: "820px" }} // <-- Ajusta los tamaños aquí
         rounded="none"
         boxShadow="2xl"
         bg="gray.200"
@@ -286,9 +284,9 @@ function HomeContent({ onOpen }) {
           alt="Hero NxuS Studio"
           style={{
             width: "100%",
-            maxWidth: "100vw",
             height: "100%",
             objectFit: "cover",
+            objectPosition: "center", // <-- Centra la imagen
             display: "block"
           }}
         />
@@ -430,29 +428,101 @@ function HomeContent({ onOpen }) {
 
 function ClientesPage() {
   return (
-    <Box bgGradient="linear(to-br, slate.50, blue.50)" minH="100vh" py={12} px={4}>
-      <Container maxW="container.xl">
-        <Box bg="white" rounded="3xl" shadow="2xl" overflow="hidden">
-          {/* Header Section */}
-          <Box bgGradient="linear(to-r, indigo.600, purple.600, blue.600)" px={8} py={12} textAlign="center">
-            <Heading size="2xl" color="white" mb={4}>Mis Clientes</Heading>
-            <Text fontSize="xl" color="blue.100" maxW="2xl" mx="auto">
-              Proyectos web exitosos que han transformado la presencia digital de mis clientes
-            </Text>
+    <Box bgGradient="linear(to-br, slate.50, blue.50)" minH="100vh" py={0} px={0}>
+      <Container maxW="container.xl" px={{ base: 2, md: 6 }}>
+        <Box bg="white" rounded={{ base: "xl", md: "3xl" }} shadow="2xl" overflow="hidden">
+          {/* Hero Imagen Clientes */}
+          <Box
+            position="relative"
+            w="100%"
+            h={{ base: "180px", sm: "240px", md: "340px", lg: "420px" }}
+            overflow="hidden"
+          >
+            <img
+              src="/nuestrosclientes.png"
+              alt="Nuestros Clientes"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block"
+              }}
+            />
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              w="100%"
+              h="100%"
+              bg="rgba(0,0,32,0.25)"
+              zIndex={1}
+            />
+            <VStack
+              position="absolute"
+              top={0}
+              left={0}
+              w="100%"
+              h="100%"
+              zIndex={2}
+              justify="center"
+              align="center"
+              spacing={{ base: 2, md: 4 }}
+              px={{ base: 2, md: 8 }}
+            >
+              <Heading
+                size={{ base: "lg", sm: "xl", md: "2xl" }}
+                color="white"
+                fontWeight="extrabold"
+                letterSpacing="tight"
+                textShadow="0 4px 32px rgba(44,0,80,0.28)"
+                fontFamily="'Montserrat', 'Segoe UI', sans-serif"
+                textAlign="center"
+              >
+                
+              </Heading>
+              <Text
+                fontSize={{ base: "sm", sm: "md", md: "xl" }}
+                color="blue.100"
+                fontWeight="medium"
+                letterSpacing="wide"
+                textShadow="0 2px 16px rgba(44,0,80,0.18)"
+                textAlign="center"
+                px={2}
+              >
+               
+              </Text>
+            </VStack>
           </Box>
           {/* Client Project Showcase */}
-          <Box p={{ base: 6, lg: 12 }}>
-            <Stack direction={{ base: "column", lg: "row" }} spacing={12} align="center">
+          <Box p={{ base: 3, sm: 6, lg: 12 }}>
+            <Stack
+              direction={{ base: "column", lg: "row" }}
+              spacing={{ base: 6, md: 12 }}
+              align={{ base: "stretch", lg: "center" }}
+            >
               {/* Project Description */}
               <Box flex={1} minW={0}>
-                <Box bgGradient="linear(to-r, amber.100, orange.100)" px={4} py={2} rounded="full" display="inline-block" mb={4}>
+                <Box
+                  bgGradient="linear(to-r, amber.100, orange.100)"
+                  px={{ base: 2, md: 4 }}
+                  py={2}
+                  rounded="full"
+                  display="inline-block"
+                  mb={4}
+                >
                   <Text color="amber.700" fontWeight="semibold" fontSize="sm">✨ Proyecto Destacado</Text>
                 </Box>
-                <Heading size="lg" bgGradient="linear(to-r, #667eea, #764ba2)" bgClip="text" fontWeight="bold" mb={4}>
+                <Heading
+                  size={{ base: "md", md: "lg" }}
+                  bgGradient="linear(to-r, #667eea, #764ba2)"
+                  bgClip="text"
+                  fontWeight="bold"
+                  mb={4}
+                >
                   Maitademi
                 </Heading>
-                <Text color="gray.600" fontSize="lg" mb={6}>
-                  Desarrollé una plataforma web completapara una pasteleria artesanal donde se pueden solicitar postres personalizados, así como on demand. Cuenta con un sistema de lealtsad que brinda puntos a los clientes por cada compra para poder canjearlos por productos o descuentos, así como un dashboard para el administrador donde puede gestionar gastos, ventas, clientes y pedidos.
+                <Text color="gray.600" fontSize={{ base: "md", md: "lg" }} mb={6}>
+                  Desarrollamos una plataforma web completa para una pasteleria artesanal donde se pueden solicitar postres personalizados, así como on demand. Cuenta con un sistema de lealtad que brinda puntos a los clientes por cada compra para poder canjearlos por productos o descuentos, así como un dashboard para el administrador donde puede gestionar gastos, ventas, clientes y pedidos.
                 </Text>
                 {/* Features List */}
                 <Box mb={6}>
@@ -487,7 +557,7 @@ function ClientesPage() {
                 {/* Results */}
                 <Box bgGradient="linear(to-r, blue.50, indigo.50)" rounded="2xl" p={6} mb={6}>
                   <Heading size="sm" color="gray.800" mb={3}>Resultados Obtenidos:</Heading>
-                  <SimpleGrid columns={3} spacing={4} textAlign="center">
+                  <SimpleGrid columns={{ base: 1, sm: 3 }} spacing={4} textAlign="center">
                     <Box>
                       <Text fontSize="2xl" fontWeight="bold" color="blue.600">+150%</Text>
                       <Text fontSize="sm" color="gray.600">Engagement</Text>
@@ -497,33 +567,33 @@ function ClientesPage() {
                       <Text fontSize="sm" color="gray.600">Satisfacción</Text>
                     </Box>
                     <Box>
-                      <Text fontSize="2xl" fontWeight="bold" color="purple.600">128</Text>
-                      <Text fontSize="sm" color="gray.600">Reseñas</Text>
+                      <Text fontSize="2xl" fontWeight="bold" color="purple.600">+50</Text>
+                      <Text fontSize="sm" color="gray.600">Clientes</Text>
                     </Box>
                   </SimpleGrid>
                 </Box>
                 {/* CTA Button */}
-                <Button
+                <NxuSButton
                   as="a"
                   href="https://maitademi.vercel.app/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  bgGradient="linear(to-r, indigo.600, purple.600)"
-                  color="white"
-                  px={8}
-                  py={4}
-                  rounded="xl"
-                  fontWeight="semibold"
-                  transition="all 0.3s"
-                  _hover={{ bgGradient: "linear(to-r, indigo.700, purple.700)", transform: "scale(1.05)" }}
-                  shadow="lg"
                 >
                   Ver Proyecto Completo
-                </Button>
+                </NxuSButton>
               </Box>
               {/* Website Thumbnail + Imagen Maitademi */}
               <Box flex={1} minW={0} position="relative">
-                <Box bgGradient="linear(to-br, gray.100, gray.200)" rounded="2xl" p={4} shadow="xl" mb={6}>
+                <Box
+                  bgGradient="linear(to-br, gray.100, gray.200)"
+                  rounded="2xl"
+                  p={4}
+                  shadow="xl"
+                  mb={6}
+                  w="100%"
+                  maxW={{ base: "100%", md: "420px" }}
+                  mx="auto"
+                >
                   <Box bg="white" rounded="xl" overflow="hidden" shadow="lg">
                     {/* Imagen Maitademi */}
                     <Box w="100%" display="flex" justifyContent="center" alignItems="center" py={4}>
@@ -541,120 +611,47 @@ function ClientesPage() {
                     </Box>
                     {/* Website Content Miniature */}
                     <Box bgGradient="linear(to-br, amber.50, orange.100)" p={4}>
-                      {/* Header */}
-                      <Box textAlign="center" mb={3}>
-                        <Box h={2} bg="gray.800" rounded mb={1} w={32} mx="auto"></Box>
-                        <Box h={1} bg="gray.600" rounded w={24} mx="auto"></Box>
-                      </Box>
-                      {/* Main Card */}
-                      <Box bg="white" rounded="lg" shadow="sm" overflow="hidden" mb={3}>
-                        <Box h={16} bgGradient="linear(to-r, amber.400, orange.500)" display="flex" alignItems="center" justifyContent="center">
-                          <Icon viewBox="0 0 24 24" boxSize={8} color="white">
-                            <path d="M12 6c-3.31 0-6 2.69-6 6 0 1.66.67 3.16 1.76 4.24l-.71.71C6.22 16.12 5.5 14.13 5.5 12c0-3.59 2.91-6.5 6.5-6.5s6.5 2.91 6.5 6.5c0 2.13-.72 4.12-1.55 4.95l-.71-.71C16.33 15.16 17 13.66 17 12c0-3.31-2.69-6-6-6z"/>
-                          </Icon>
-                        </Box>
-                        <Box p={3}>
-                          <Flex justify="space-between" align="start" mb={2}>
-                            <Box>
-                              <Box h={2} bg="gray.800" rounded mb={1} w={16}></Box>
-                              <Box h={1} bg="gray.600" rounded w={12}></Box>
-                            </Box>
-                            <Box textAlign="right">
-                              <Text fontSize="xs" color="amber.600" fontWeight="bold">4.8</Text>
-                              <Text fontSize="xs" color="amber.400">⭐⭐⭐⭐⭐</Text>
-                            </Box>
-                          </Flex>
-                          <Box mb={2}>
-                            <Box h={1} bg="gray.400" rounded w="100%"></Box>
-                            <Box h={1} bg="gray.400" rounded w="80%"></Box>
-                            <Box h={1} bg="gray.400" rounded w="75%"></Box>
-                          </Box>
-                          {/* Highlights */}
-                          <SimpleGrid columns={3} spacing={1} mb={2}>
-                            <Box bg="green.50" rounded p={1} textAlign="center">
-                              <Text fontSize="xs">☕</Text>
-                            </Box>
-                            <Box bg="blue.50" rounded p={1} textAlign="center">
-                              <Text fontSize="xs">🏠</Text>
-                            </Box>
-                            <Box bg="purple.50" rounded p={1} textAlign="center">
-                              <Text fontSize="xs">🍰</Text>
-                            </Box>
-                          </SimpleGrid>
-                          {/* User info */}
-                          <Flex align="center" justify="space-between" pt={2} borderTop="1px solid #e2e8f0">
-                            <Flex align="center">
-                              <Box w={4} h={4} bgGradient="linear(to-r, blue.400, purple.500)" rounded="full" mr={1}></Box>
-                              <Box h={1} bg="gray.600" rounded w={8}></Box>
-                            </Flex>
-                            <Flex gap={1}>
-                              <Box bg="gray.100" rounded px={1} py={0.5}>
-                                <Box h={1} bg="gray.600" rounded w={4}></Box>
-                              </Box>
-                              <Box bg="blue.500" rounded px={1} py={0.5}>
-                                <Box h={1} bg="white" rounded w={4}></Box>
-                              </Box>
-                            </Flex>
-                          </Flex>
-                        </Box>
-                      </Box>
-                      {/* Additional reviews */}
-                      <Box bg="white" rounded="lg" p={2}>
-                        <Box h={1} bg="gray.800" rounded mb={2} w={16}></Box>
-                        <Box>
-                          <Flex align="center" gap={1}>
-                            <Box w={2} h={2} bgGradient="linear(to-r, green.400, blue.500)" rounded="full"></Box>
-                            <Box h={1} bg="gray.400" rounded flex={1}></Box>
-                          </Flex>
-                          <Flex align="center" gap={1}>
-                            <Box w={2} h={2} bgGradient="linear(to-r, pink.400, red.500)" rounded="full"></Box>
-                            <Box h={1} bg="gray.400" rounded flex={1}></Box>
-                          </Flex>
-                        </Box>
-                      </Box>
                     </Box>
                   </Box>
                 </Box>
                 {/* Floating Badge */}
-                <Box position="absolute" top={-4} right={-4} bgGradient="linear(to-r, green.400, blue.500)" color="white" px={4} py={2} rounded="full" shadow="lg" transform="rotate(12deg)">
-                  <Text fontSize="sm" fontWeight="bold">¡Exitoso!</Text>
+                <Box
+                  position="absolute"
+                  top={-4}
+                  right={-4}
+                  bgGradient="linear(to-r, green.400, blue.500)"
+                  color="white"
+                  px={4}
+                  py={2}
+                  rounded="full"
+                  shadow="lg"
+                  transform="rotate(12deg)"
+                  fontSize={{ base: "xs", md: "sm" }}
+                >
+                  <Text fontWeight="bold">¡Exitoso!</Text>
                 </Box>
               </Box>
             </Stack>
           </Box>
           {/* Bottom CTA Section */}
-          <Box bgGradient="linear(to-r, gray.50, blue.50)" px={8} py={8} textAlign="center" borderTop="1px solid #e2e8f0">
-            <Heading size="lg" color="gray.800" mb={4}>¿Listo para tu próximo proyecto?</Heading>
-            <Text color="gray.600" mb={6} maxW="2xl" mx="auto">
+          <Box
+            bgGradient="linear(to-r, gray.50, blue.50)"
+            px={{ base: 2, md: 8 }}
+            py={{ base: 6, md: 8 }}
+            textAlign="center"
+            borderTop="1px solid #e2e8f0"
+          >
+            <Heading size={{ base: "md", md: "lg" }} color="gray.800" mb={4}>¿Listo para tu próximo proyecto?</Heading>
+            <Text color="gray.600" mb={6} maxW="2xl" mx="auto" fontSize={{ base: "sm", md: "md" }}>
               Transformemos tu idea en una experiencia web excepcional que conecte con tus usuarios y haga crecer tu negocio.
             </Text>
             <Stack direction={{ base: "column", sm: "row" }} gap={4} justify="center">
-              <Button
-                bg="indigo.600"
-                color="white"
-                px={8}
-                py={3}
-                rounded="xl"
-                fontWeight="semibold"
-                _hover={{ bg: "indigo.700" }}
-                transition="colors 0.2s"
-              >
+              <NxuSButton>
                 Iniciar Proyecto
-              </Button>
-              <Button
-                border="2px solid"
-                borderColor="indigo.600"
-                color="indigo.600"
-                bg="transparent"
-                px={8}
-                py={3}
-                rounded="xl"
-                fontWeight="semibold"
-                _hover={{ bg: "indigo.600", color: "white" }}
-                transition="all 0.2s"
-              >
+              </NxuSButton>
+              <NxuSButton>
                 Ver Más Trabajos
-              </Button>
+              </NxuSButton>
             </Stack>
           </Box>
         </Box>
@@ -662,6 +659,30 @@ function ClientesPage() {
     </Box>
   );
 }
+
+// Botón personalizado reutilizable
+const NxuSButton = forwardRef(({ children, ...props }, ref) => (
+  <Button
+    ref={ref}
+    bg="#319795"
+    color="white"
+    px={8}
+    py={4}
+    rounded="xl"
+    fontWeight="semibold"
+    transition="all 0.3s"
+    _hover={{
+      bg: "white",
+      color: "#319795",
+      border: "2px solid #319795"
+    }}
+    shadow="lg"
+    w={{ base: "100%", sm: "auto" }}
+    {...props}
+  >
+    {children}
+  </Button>
+));
 
 export default function App() {
   const disclosure = useDisclosure();
