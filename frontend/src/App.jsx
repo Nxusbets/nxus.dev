@@ -23,7 +23,8 @@ import {
   MenuList,
   MenuItem,
   useBreakpointValue,
-  IconButton
+  IconButton,
+  Image // added
 } from '@chakra-ui/react';
 import { FaLinkedin, FaGithub, FaEnvelope, FaCheckCircle, FaCloud, FaBullhorn, FaLightbulb, FaChevronDown, FaBars, FaTimes } from 'react-icons/fa';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
@@ -775,18 +776,19 @@ function ClientesPage() {
           <Box
             position="relative"
             w="100%"
-            h={{ base: "180px", sm: "240px", md: "340px", lg: "420px" }}
+            /* más alto en móvil para evitar recorte */
+            h={{ base: "150px", sm: "360px", md: "240px", lg: "120px" }}
             overflow="hidden"
           >
-            <img
+            <Image
               src="/nuestrosclientes.png"
               alt="Nuestros Clientes"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block"
-              }}
+              w="100%"
+              h="100%"
+              objectFit="cover"
+              /* mostrar la parte superior en móvil, centrada en pantallas grandes */
+              objectPosition={{ base: "top center", md: "center" }}
+              display="block"
             />
             <Box
               position="absolute"
@@ -804,10 +806,12 @@ function ClientesPage() {
               w="100%"
               h="100%"
               zIndex={2}
-              justify="center"
+              /* en móvil alineamos al final para que el texto esté visible y no se recorte */
+              justify={{ base: "flex-end", md: "center" }}
               align="center"
               spacing={{ base: 2, md: 4 }}
-              px={{ base: 2, md: 8 }}
+              px={{ base: 4, md: 8 }}
+              pb={{ base: 8, md: 0 }}
             >
               <Heading
                 size={{ base: "lg", sm: "xl", md: "2xl" }}
@@ -818,7 +822,7 @@ function ClientesPage() {
                 fontFamily="'Montserrat', 'Segoe UI', sans-serif"
                 textAlign="center"
               >
-                
+                {/* ...existing content... */}
               </Heading>
               <Text
                 fontSize={{ base: "sm", sm: "md", md: "xl" }}
@@ -829,7 +833,7 @@ function ClientesPage() {
                 textAlign="center"
                 px={2}
               >
-               
+                {/* ...existing content... */}
               </Text>
             </VStack>
           </Box>
